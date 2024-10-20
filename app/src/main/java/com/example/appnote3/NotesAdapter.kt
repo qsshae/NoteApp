@@ -30,10 +30,7 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
     override fun onBindViewHolder(viewHolder: NotesViewHolder, position: Int) {
         val note = notes[position]
-        viewHolder.textViewNote.text = """
-            ${note.header}
-            ${note.text}
-            """.trimIndent()
+        viewHolder.textViewNote.text = "${note.header}\n\n${note.text}"
 
         viewHolder.itemView.setOnClickListener {
             OnNoteClickListener?.onNoteClick(note)
