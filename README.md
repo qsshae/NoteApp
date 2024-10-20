@@ -7,7 +7,7 @@ The application is very practical, following functionality:
 1. Create new notes.
 2. View a list of all created notes.
 3. Edit existing note.
-4. Note Deletion.
+4. Note deletion.
 5. View created note
 
 ## Getting Started
@@ -58,12 +58,58 @@ androidTestImplementation(libs.androidx.espresso.core)
 ```
 Библиотека для автоматизированного тестирования пользовательского интерфейса. Обеспечивает простое и мощное API для взаимодействия с пользовательским интерфейсом, позволяя легко писать тесты для проверки поведения приложения.
 
-### Installing
+### :computer: Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+1. Требования
+Java Development Kit (JDK): Убедитесь, что у вас установлена версия JDK 11 или выше.
+Android Studio: Скачайте и установите последнюю версию Android Studio.
+SDK: Убедитесь, что у вас установлены необходимые Android SDK (API Level) в Android Studio.
 
-### Executing program
+2. Клонирование репозитория
+Откройте терминал и выполните команду:
+```
+git clone https://github.com/ваш-репозиторий.git
+cd ваш-репозиторий
+```
+
+3. Импорт проекта в Android Studio
+Запустите Android Studio.
+Выберите File -> Open... и выберите папку с клонированным репозиторием.
+Подождите, пока Gradle синхронизирует проект.
+
+4. Настройка зависимостей
+Убедитесь, что все зависимости указаны в файле build.gradle (как в корне проекта, так и в модулях). Для этого откройте файл и проверьте наличие следующих зависимостей:
+```
+dependencies {
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.activity:activity-ktx:1.7.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.room:room-ktx:2.5.1")
+    implementation("androidx.room:room-runtime:2.5.1")
+    kapt("androidx.room:room-compiler:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+}
+```
+5. Сборка проекта
+В меню Android Studio выберите Build -> Make Project или нажмите Ctrl + F9 (Windows) или Command + F9 (Mac).
+Убедитесь, что сборка прошла успешно и нет ошибок.
+
+6. Запуск приложения
+Подключите устройство или запустите эмулятор.
+В меню Android Studio выберите Run -> Run 'app' или нажмите Shift + F10.
+Выберите устройство для установки и запуска приложения.
+
+7. Проблемы и решение
+Если возникают проблемы со сборкой, проверьте логи Gradle в нижней части окна Android Studio.
+Убедитесь, что все зависимости указаны правильно и что у вас установлены соответствующие версии плагинов.
+
+### :iphone: Executing program
 
 * How to run the program
 * Step-by-step bullets
@@ -71,6 +117,6 @@ androidTestImplementation(libs.androidx.espresso.core)
 code blocks for commands
 ```
 
-## License
+## :page_facing_up: License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
