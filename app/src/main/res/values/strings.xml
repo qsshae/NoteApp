@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">NotesApp</string>
+    <string name="btn_adding_note_description">Button for adding new note</string>
+    <string name="btn_save">Save</string>
+    <string name="tools_some_text">Some text</string>
+    <string name="no_notes_message">No notes yet.. \n Click on \"+\" an add new note.</string>
+    <string name="error_field_empty">"Please enter note text"</string>
+    <string name="enter_header_hint">Enter header..</string>
+    <string name="enter_some_text_hint">Enter some text..</string>
+</resources>
