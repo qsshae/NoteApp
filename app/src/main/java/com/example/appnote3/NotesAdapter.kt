@@ -36,7 +36,7 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
             """.trimIndent()
 
         viewHolder.itemView.setOnClickListener {
-            OnNoteClickListener?.onNoteClick(note) // Используем более чистый способ
+            OnNoteClickListener?.onNoteClick(note)
         }
     }
 
@@ -49,6 +49,6 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     }
 
     interface OnClickListener {
-        fun onNoteClick(note: Note) // Убираем вопросительный знак
+        fun onNoteClick(note: Note)
     }
 }

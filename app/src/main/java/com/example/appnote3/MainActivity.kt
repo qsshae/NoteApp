@@ -26,20 +26,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge() // Включаем полноэкранный режим с прозрачными системными элементами
         setContentView(R.layout.activity_main)
 
+        // Обрабатываем системные отступы для editTextNote, чтобы адаптировать его под полноэкранный режим
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editTextNote)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-//        val database = NoteDatabase.getInstance(application)
-//        val repository = NoteRepository(database)
-//        val factory = MainViewModelFactory(application, repository)
-
-        // Инициализация ViewModel с фабрикой
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         initViews() // Инициализация View-элементов интерфейса
@@ -55,31 +51,36 @@ class MainActivity : AppCompatActivity() {
 
         recyclerViewNotes.adapter = notesAdapter // Установка адаптера в RecyclerView
 
+        // Наблюдаем за изменениями списка заметок через ViewModel
         viewModel.getNotes().observe(this, Observer { notes ->
             notesAdapter.setNotes(notes)
             if (notes.isEmpty()) {
-                // Если список пуст, показываем сообщение
+                // Если список пуст, показываем сообщение "Нет заметок"
                 textViewNoNotes.visibility = View.VISIBLE
                 recyclerViewNotes.visibility = View.GONE
-            }
-            else {
-                // Если есть заметки, скрываем сообщение и показываем RecyclerView
+            } else {
+                // Если заметки есть, отображаем список и скрываем сообщение
                 textViewNoNotes.visibility = View.GONE
                 recyclerViewNotes.visibility = View.VISIBLE
-                notesAdapter.setNotes(notes) // Устанавливаем список заметок в адаптер
+                notesAdapter.setNotes(notes) // Обновляем адаптер
             }
         })
 
-        // Удаление заметок свайпом
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        // Добавляем поддержку удаления заметок свайпом
+        val itemTouchHelper = ItemTouchHelper(object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val note = notesAdapter.getNotes()[position]
-                viewModel.remove(note)
+                viewModel.remove(note) // Удаляем заметку через ViewModel
             }
         })
 

@@ -23,15 +23,14 @@ class EditNoteActivity : AppCompatActivity() {
 
     private lateinit var viewModel: EditNoteActivityViewModel
 
-    private val handler = Handler(Looper.getMainLooper()) // Обработчик для выполнения кода в главном потоке
-
     private var noteId: Int = 0 // ID редактируемой заметки
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge() // Включаем полноэкранный режим с прозрачными системными элементами
         setContentView(R.layout.activity_edit_note)
 
+        // Обрабатываем системные отступы для корневого элемента, чтобы адаптировать его под полноэкранный режим
         ViewCompat.setOnApplyWindowInsetsListener(
             findViewById(R.id.main)
         ) { v, insets ->
@@ -40,41 +39,42 @@ class EditNoteActivity : AppCompatActivity() {
             insets
         }
 
-            //  val database = NoteDatabase.getInstance(application)
-//        val repository = NoteRepository(database)
-//        val factory = EditNoteViewModelFactory(application, repository)
-
-        // Инициализация ViewModel с фабрикой
         viewModel = ViewModelProvider(this).get(EditNoteActivityViewModel::class.java)
 
+        // Наблюдаем за сигналом о необходимости закрытия экрана
         viewModel.getShouldCloseScreen().observe(this, Observer { shouldClose ->
-            if (shouldClose) finish()
+            if (shouldClose) finish() // Закрываем активность, если сработал триггер
         })
 
-        initViews()
+        initViews() // Инициализация View-элементов интерфейса
 
         val intent = intent
-        noteId = intent.getIntExtra("noteId", -1)
+        noteId = intent.getIntExtra("noteId", -1) // Получаем ID заметки, если он передан
 
+        // Наблюдаем за заголовком заметки
         viewModel.getHeaderLiveData().observe(this, Observer { header ->
             editTextHeader?.setText(header)
         })
 
+        // Наблюдаем за текстом заметки
         viewModel.getTextLiveData().observe(this, Observer { text ->
             editTextNote?.setText(text)
         })
 
+        // Если noteId равен -1, создаем новую заметку, иначе загружаем существующую
         if (noteId == -1) {
-            viewModel.loadNewNote() // Инициализируем пустыми данными
+            viewModel.loadNewNote() // Инициализируем пустыми данными для новой заметки
         } else {
             viewModel.loadNote(noteId) // Загружаем существующую заметку из базы данных
         }
 
+        // Обработка нажатия на кнопку сохранения заметки
         btnSaveNote?.setOnClickListener {
             saveNote()
         }
     }
 
+    // Инициализация View-элементов интерфейса
     private fun initViews() {
         editTextNote = findViewById(R.id.editTextNote)
         btnSaveNote = findViewById(R.id.buttonSaveNote)
@@ -82,19 +82,21 @@ class EditNoteActivity : AppCompatActivity() {
         snackbarView = findViewById(android.R.id.content)
     }
 
+    // Логика сохранения заметки
     private fun saveNote() {
-        val updatedNoteText = editTextNote?.text.toString()
-        val headerText = editTextHeader?.text.toString()
+        val updatedNoteText = editTextNote?.text.toString() // Получаем текст заметки
+        val headerText = editTextHeader?.text.toString() // Получаем заголовок заметки
         val note = if (noteId != -1) {
-            Note(noteId, headerText, updatedNoteText)
+            Note(noteId, headerText, updatedNoteText) // Обновляем существующую заметку
         } else {
-            Note(headerText, updatedNoteText)
+            Note(headerText, updatedNoteText) // Создаем новую заметку
         }
 
+        // Если текст заметки пустой, показываем Snackbar с сообщением об ошибке
         if (updatedNoteText.isEmpty()) {
             Snackbar.make(snackbarView!!, R.string.error_field_empty, Snackbar.LENGTH_LONG).show()
         } else {
-            viewModel.saveNote(note)
+            viewModel.saveNote(note) // Сохраняем заметку через ViewModel
         }
     }
 }
