@@ -58,7 +58,7 @@ androidTestImplementation(libs.androidx.espresso.core)
 ```
 Библиотека для автоматизированного тестирования пользовательского интерфейса. Обеспечивает простое и мощное API для взаимодействия с пользовательским интерфейсом, позволяя легко писать тесты для проверки поведения приложения.
 
-### :computer: Installing
+### :iphone: Installing
 
 1. Требования
 Java Development Kit (JDK): Убедитесь, что у вас установлена версия JDK 11 или выше.
@@ -105,17 +105,9 @@ dependencies {
 В меню Android Studio выберите Run -> Run 'app' или нажмите Shift + F10.
 Выберите устройство для установки и запуска приложения.
 
-7. Проблемы и решение
+7. Проблемы и решения
 Если возникают проблемы со сборкой, проверьте логи Gradle в нижней части окна Android Studio.
 Убедитесь, что все зависимости указаны правильно и что у вас установлены соответствующие версии плагинов.
-
-### :iphone: Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
 
 ## :page_facing_up: License
 
